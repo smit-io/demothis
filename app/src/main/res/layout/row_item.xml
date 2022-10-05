@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tv_hubname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/tv_hubname"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_coordinates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="130dp"
+        android:text="@string/tv_coordinates"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_latlang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="0dp"
+        android:text="@string/tv_coordinates"
+        android:textColor="@color/black"
+        tools:layout_alignBaseline="@id/tv_coordinates"
+        tools:layout_toLeftOf="@id/tv_coordinates" />
+
+    <TextView
+        android:id="@+id/tv_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_hubname"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:text="@string/tv_hours"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_hoursofoperation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_hubname"
+        android:layout_toRightOf="@+id/tv_hours"
+        android:padding="10dp"
+        android:text="@string/tv_hoursofoperation"
+        android:textColor="@color/black" />
+
+
+</RelativeLayout>

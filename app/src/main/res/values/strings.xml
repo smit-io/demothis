@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">demothis</string>
+    <string name="app_name">Demo this</string>
+    <string name="tv_coordinates">Coordinates</string>
+    <string name="tv_hubname">Hub Name</string>
+    <string name="tv_hours">Hours</string>
+    <string name="tv_hoursofoperation">Hours of operation</string>
+    <string name="tv_latlang">Lat, Lang</string>
+    <string name="btn_fetchhubs">Fetch Hubs</string>
+
 </resources>
