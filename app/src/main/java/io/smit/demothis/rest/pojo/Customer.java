@@ -3,7 +3,7 @@ package io.smit.demothis.rest.pojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import io.smit.holdme.rest.constants.SerializedNames;
+import io.smit.demothis.rest.constants.SerializedNames;
 
 public class Customer {
     @Expose
