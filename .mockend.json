@@ -4,7 +4,7 @@
 	  "latitude": { "int": { "min": 10, "max": 50 } },
 	  "longitude": { "int": { "min": 10, "max": 50 } },
 	  "hubname": { "regexp": "[A-Z][a-z]{5,10}" },
-	  "openingtime": { "regexp": "1::Oct::2022 9::11::33" },
+	  "openingtime": { "regexp": "1::Oct::2022 19::11::33" },
 	  "closingtime": { "regexp": "1::Oct::2022 19::11::33" }
   }
 }
