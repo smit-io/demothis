@@ -34,13 +34,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Define static variables
     private static Gson gson;
     private static Retrofit retrofit;
     private static HubsApi hubsApi;
+    private static Customer customer;
     private List<Hub> hubList;
     private ListView listViewHubs;
     private Button buttonFetchHubs;
-    private static Customer customer;
 
     private static final String TAG = "Mainactivity";
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Hard coded data for customer class
         customer = new Customer();
-        customer.setLatitude(10);
+        customer.setLatitude(50);
         customer.setLongitude(20);
         // Hardcoded string for Parker's name
         customer.setName("Parker");
