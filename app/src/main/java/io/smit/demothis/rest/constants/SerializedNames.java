@@ -4,15 +4,15 @@ public interface SerializedNames {
 
     // Serialized names
     // Customer class
-    public final String CUSTOMER_NAME = "customername";
-    public final String CUSTOMER_LAT = "latitude";
-    public final String CUSTOMER_LONG = "longitude";
+    String CUSTOMER_NAME = "customername";
+    String CUSTOMER_LAT = "latitude";
+    String CUSTOMER_LONG = "longitude";
 
     // Hub class
-    public final String HUB_NAME = "hubname";
-    public final String HUB_LAT = "latitude";
-    public final String HUB_LONG = "longitude";
-    public final String HUB_OPENTIME = "openingtime";
-    public final String HUB_CLOSETIME = "closingtime";
-    public final String HUB_ID = "id";
+    String HUB_NAME = "hubname";
+    String HUB_LAT = "latitude";
+    String HUB_LONG = "longitude";
+    String HUB_OPENTIME = "openingtime";
+    String HUB_CLOSETIME = "closingtime";
+    String HUB_ID = "id";
 }

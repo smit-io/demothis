@@ -11,17 +11,17 @@ public class SessionManagement
     SharedPreferences.Editor editor;
 
     public SessionManagement(Context context) {
-        sharedPreferences = context.getSharedPreferences(Session.SHARED_PREFRENCES_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences(Session.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
     }
 
     public void saveSession(Customer customer){
-        editor.putString(Session.SHARED_PREFRENCES_SESSION_KEY, customer.getName()).commit();
+        editor.putString(Session.SHARED_PREFERENCES_SESSION_KEY, customer.getName()).commit();
     }
 
     public String getSession(Customer customer) {
-        return sharedPreferences.getString(Session.SHARED_PREFRENCES_SESSION_KEY, "");
+        return sharedPreferences.getString(Session.SHARED_PREFERENCES_SESSION_KEY, "");
     }
 
     public SharedPreferences getSharedPreferences() {
