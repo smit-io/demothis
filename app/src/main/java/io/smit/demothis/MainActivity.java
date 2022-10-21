@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         customer = gson.fromJson(getIntent().getStringExtra(SerializedNames.CUSTOMER), Customer.class);
         customerDateTime = gson.fromJson(getIntent().getStringExtra(SerializedNames.LOCALDATETIME), LocalDateTime.class);
 
+       Toast.makeText(MainActivity.this, getIntent().getStringExtra(SerializedNames.LOCALDATETIME), Toast.LENGTH_LONG).show();
+
 
 
         Toast.makeText(MainActivity.this, "Fetching hubs...", Toast.LENGTH_LONG).show();

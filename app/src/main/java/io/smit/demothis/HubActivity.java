@@ -44,6 +44,9 @@ public class HubActivity extends AppCompatActivity
     private double latitude;
     private double longitude;
 
+    int hour;
+    int minute;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +66,20 @@ public class HubActivity extends AppCompatActivity
                 // Pick time here
                 TimePickerDialog timePickerDialog = new TimePickerDialog(HubActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
-                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                    public void onTimeSet(TimePicker timePicker, int h, int m)
+                    {
+                        hour = h;
+                        minute = m;
                         Calendar calendar = Calendar.getInstance();
-                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm aa");
+                        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
                         localDateTime = LocalDateTime.of(2022, 10, 1, hour, minute);
                         textLocalTime.setText(localDateTime.format(dateTimeFormatter));
                     }
                 }, 12, 0, false);
+                timePickerDialog.updateTime(hour, minute);
+                timePickerDialog.show();
             }
+
         });
 
         buttonFindHubs.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +87,7 @@ public class HubActivity extends AppCompatActivity
             public void onClick(View view) {
                 // Check if textview
 
-                if (localDateTime != null)
+                if (localDateTime == null)
                 {
                     Snackbar.make(view, Warning.NO_DATETIME, Snackbar.LENGTH_LONG).show();
                 }
@@ -88,8 +97,8 @@ public class HubActivity extends AppCompatActivity
                     String longi = editTextLongitude.getText().toString();
                     if (!lat.isEmpty() && !longi.isEmpty())
                     {
-                        latitude = Double.valueOf(textLocalTime.getText().toString());
-                        longitude = Double.valueOf(textLocalTime.getText().toString());
+                        latitude = Double.valueOf(editTextLatitude.getText().toString());
+                        longitude = Double.valueOf(editTextLongitude.getText().toString());
 
                         customer.setName("Parker");
                         customer.setLongitude(longitude);
@@ -126,5 +135,6 @@ public class HubActivity extends AppCompatActivity
         customer.setName("Parker");
         intent.putExtra(SerializedNames.CUSTOMER, gson.toJson(customer));
         intent.putExtra(SerializedNames.LOCALDATETIME, gson.toJson(localDateTime));
+        startActivity(intent);
     }
 }
