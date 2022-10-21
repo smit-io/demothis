@@ -10,10 +10,10 @@
         android:id="@+id/tv_picktime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="128dp"
+        android:layout_marginTop="124dp"
         android:text="@string/tv_picktime"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,10 +21,66 @@
         android:id="@+id/btn_findhubs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="404dp"
         android:text="@string/btn_findhubs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etn_lat"
+        android:layout_width="55dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="108dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_picktime" />
+
+    <EditText
+        android:id="@+id/etn_long"
+        android:layout_width="55dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="108dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.705"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_picktime" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="108dp"
+        android:text="X"
+        app:layout_constraintEnd_toStartOf="@+id/etn_lat"
+        app:layout_constraintHorizontal_bias="0.866"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_picktime" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="108dp"
+        android:text="Y"
+        app:layout_constraintEnd_toStartOf="@+id/etn_long"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toEndOf="@+id/etn_lat"
+        app:layout_constraintTop_toBottomOf="@+id/tv_picktime" />
+
+    <TextView
+        android:id="@+id/tv_localtime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="HH:MM AM"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_picktime" />
 </androidx.constraintlayout.widget.ConstraintLayout>

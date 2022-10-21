@@ -7,6 +7,6 @@
     <string name="tv_latlang">Lat, Lang</string>
     <string name="btn_fetchhubs">Fetch Hubs</string>
     <string name="tv_picktime">Select a time to pick up package</string>
-    <string name="btn_findhubs">Find hubs</string>
+    <string name="btn_findhubs">Find hubs near you</string>
 
 </resources>
