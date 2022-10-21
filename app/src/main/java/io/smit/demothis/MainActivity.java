@@ -15,6 +15,8 @@ import com.google.gson.GsonBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 import io.smit.demothis.rest.adapters.HubListAdapter;
@@ -81,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         hubList = response.body();
+                        hubList = customer.calculateManhattanDistance(hubList);
+                        hubList.sort(Comparator.comparing(Hub::getManhattanDistance));
                         Log.d("RESPONSE", "listofhubs " + hubList.toString());
                         Log.d("RESPONSE", response.body().toString() + "code " + response.code());
 
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Hub hub = (Hub) adapterView.getItemAtPosition(i);
-                Snackbar.make(view, "Manhattan distance: " + calculateManhattanDistance(hub), Snackbar.LENGTH_LONG).show();
+                Snackbar.make(view, "Manhattan distance: " + hub.getManhattanDistance(), Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -137,13 +141,4 @@ public class MainActivity extends AppCompatActivity {
         hubsApi = retrofit.create(HubsApi.class);
     }
 
-    private static int calculateManhattanDistance(Hub hub)
-    {
-        double xto = hub.getLatitude();
-        double yto = hub.getLatitude();
-        double xfrom = customer.getLatitude();
-        double yfrom = customer.getLongitude();
-
-        return (int) (Math.abs(xfrom - xto) + Math.abs(yfrom - yto));
-    }
 }
