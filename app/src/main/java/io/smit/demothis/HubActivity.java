@@ -15,11 +15,13 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
+import io.smit.demothis.rest.GsonInitializer;
 import io.smit.demothis.rest.constants.SerializedNames;
 import io.smit.demothis.rest.constants.Warning;
 import io.smit.demothis.rest.gsonserializer.LocalDateDeserializer;
@@ -30,16 +32,18 @@ import io.smit.demothis.rest.pojo.Customer;
 
 public class HubActivity extends AppCompatActivity
 {
-
+    // Declaring UI elements
     private TextView textLocalTime;
     private Button buttonFindHubs;
     private EditText editTextLatitude, editTextLongitude;
     private LocalDateTime localDateTime;
     private Customer customer;
 
+    // Declaring input fields from the user from UI
     private double latitude;
     private double longitude;
 
+    // To get the time for pick up
     int hour;
     int minute;
 
@@ -48,14 +52,17 @@ public class HubActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
 
-        textLocalTime = (TextView) findViewById(R.id.tv_localtime);
+
+        // Intialize all UI fields
+        textLocalTime = findViewById(R.id.tv_localtime);
         editTextLatitude = findViewById(R.id.etn_lat);
         editTextLongitude = findViewById(R.id.etn_long);
-        buttonFindHubs = (Button) findViewById(R.id.btn_findhubs);
+        buttonFindHubs = findViewById(R.id.btn_findhubs);
 
+        // Initialize a new customer
         customer = new Customer();
 
-
+        // Display a time dialog picker when clicked on the time picker textview
         textLocalTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,9 +73,9 @@ public class HubActivity extends AppCompatActivity
                     {
                         hour = h;
                         minute = m;
-                        Calendar calendar = Calendar.getInstance();
                         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a");
                         localDateTime = LocalDateTime.of(2022, 10, 1, hour, minute);
+                        //Toast.makeText(getBaseContext(), localDateTime.toString(), Toast.LENGTH_LONG).show();
                         textLocalTime.setText(localDateTime.format(dateTimeFormatter));
                     }
                 }, 12, 0, false);
@@ -78,10 +85,12 @@ public class HubActivity extends AppCompatActivity
 
         });
 
-        buttonFindHubs.setOnClickListener(new View.OnClickListener() {
+        buttonFindHubs.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View view) {
-                // Check if textview
+
+                // Some basic warning handling to check customer date time is not empty and check if the coordinates are entered
 
                 if (localDateTime == null)
                 {
@@ -93,10 +102,12 @@ public class HubActivity extends AppCompatActivity
                     String longi = editTextLongitude.getText().toString();
                     if (!lat.isEmpty() && !longi.isEmpty())
                     {
-                        latitude = Double.valueOf(editTextLatitude.getText().toString());
-                        longitude = Double.valueOf(editTextLongitude.getText().toString());
 
-                        customer.setName("Parker");
+                        latitude = Double.parseDouble(editTextLatitude.getText().toString());
+                        longitude = Double.parseDouble(editTextLongitude.getText().toString());
+
+                        // Hard coded name for customer, not good practice but good enough for the demo
+                        customer.setName("John");
                         customer.setLongitude(longitude);
                         customer.setLatitude(latitude);
 
@@ -113,24 +124,14 @@ public class HubActivity extends AppCompatActivity
 
     }
 
-    private void gotoMainActivity() {
+    private void gotoMainActivity()
+    {
         Intent intent = new Intent(HubActivity.this, MainActivity.class);
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-        gsonBuilder.setLenient();
-        Gson gson = gsonBuilder.create();
-
-        Customer customer = new Customer();
-        customer.setLatitude(latitude);
-        customer.setLongitude(longitude);
-        // This can be any name, just hard coded for the demo
-        customer.setName("Parker");
+        Gson gson = GsonInitializer.getGson();
         intent.putExtra(SerializedNames.CUSTOMER, gson.toJson(customer));
         intent.putExtra(SerializedNames.LOCALDATETIME, gson.toJson(localDateTime));
         startActivity(intent);
     }
+
+
 }

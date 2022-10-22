@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import io.smit.demothis.rest.GsonInitializer;
 import io.smit.demothis.rest.adapters.HubListAdapter;
 import io.smit.demothis.rest.constants.Constants;
 import io.smit.demothis.rest.constants.SerializedNames;
@@ -40,7 +41,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
 
     // Define static variables
     private static Gson gson;
@@ -49,36 +51,24 @@ public class MainActivity extends AppCompatActivity {
     private static Customer customer;
     private static List<Hub> hubList;
     private ListView listViewHubs;
-    private static Context context;
-    private static List<Hub> availableHubs;
 
     private static LocalDateTime customerDateTime;
 
-    private static final String TAG = "Mainactivity";
+    private static final String TAG = "Main activity";
 
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         listViewHubs = (ListView) findViewById(R.id.lv_hubs);
-        availableHubs = new ArrayList<>();
-
-        // Hard coded data for customer class
-        //customer = new Customer();
-        //customer.setLatitude(50);
-        //customer.setLongitude(20);
-        // Hardcoded string for Parker's name
-        //customer.setName("Parker");
-
-
-        context = getBaseContext();
 
 
         // REST API initialize
-        buildGson();
+        gson = GsonInitializer.getGson();
         buildRetrofit();
         buildHubsApi();
 
@@ -94,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         Call<List<Hub>> call = hubsApi.getAllHubs();
 
-        call.enqueue(new Callback<List<Hub>>() {
+        call.enqueue(new Callback<List<Hub>>()
+        {
             @Override
             public void onResponse(Call<List<Hub>> call, Response<List<Hub>> response) {
                 if (!response.isSuccessful())
@@ -125,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        listViewHubs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewHubs.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Hub hub = (Hub) adapterView.getItemAtPosition(i);
@@ -134,20 +126,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    private static void buildGson()
-    {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
-        gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-        gsonBuilder.setLenient();
-
-        gson = gsonBuilder.serializeNulls().setPrettyPrinting().create();
     }
 
     private static void buildRetrofit()
@@ -163,22 +141,32 @@ public class MainActivity extends AppCompatActivity {
         hubsApi = retrofit.create(HubsApi.class);
     }
 
-    public static void filterHubsByAvailibility()
+    public void filterHubsByAvailibility()
     {
         for (Iterator<Hub> iterator = hubList.iterator(); iterator.hasNext();)
         {
             Hub hub = iterator.next();
 
-            if(!(hub.getOpeningTime().isBefore(customerDateTime) && hub.getClosingTime().isAfter(customerDateTime)))
+            if(!(isCustomerTimeAfterOpening(hub.getOpeningTime(), customerDateTime) && isCustomerTimeBeforeClosing(hub.getClosingTime(), customerDateTime)))
             {
                 iterator.remove();
-                Toast.makeText(context, "Hub " + hub.getName() + " is not available", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Hub " + hub.getName() + " is not available", Toast.LENGTH_LONG).show();
             }
             else
             {
-                Toast.makeText(context, "Hub " + hub.getName() + " is available", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Hub " + hub.getName() + " is available", Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    private static boolean isCustomerTimeAfterOpening(LocalDateTime hubOpeningTime, LocalDateTime customerTime)
+    {
+        return customerTime.isAfter(hubOpeningTime) || customerTime.isEqual(hubOpeningTime);
+    }
+
+    private static boolean isCustomerTimeBeforeClosing(LocalDateTime hubClosingTime, LocalDateTime customerTime)
+    {
+        return customerTime.isBefore(hubClosingTime) || customerTime.isEqual(hubClosingTime);
     }
 
 
