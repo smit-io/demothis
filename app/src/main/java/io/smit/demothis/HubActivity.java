@@ -13,21 +13,13 @@ import android.widget.TimePicker;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 
-import io.smit.demothis.rest.GsonInitializer;
+import io.smit.demothis.rest.initialize.GsonInitializer;
 import io.smit.demothis.rest.constants.SerializedNames;
 import io.smit.demothis.rest.constants.Warning;
-import io.smit.demothis.rest.gsonserializer.LocalDateDeserializer;
-import io.smit.demothis.rest.gsonserializer.LocalDateSerializer;
-import io.smit.demothis.rest.gsonserializer.LocalDateTimeDeserializer;
-import io.smit.demothis.rest.gsonserializer.LocalDateTimeSerializer;
 import io.smit.demothis.rest.pojo.Customer;
 
 public class HubActivity extends AppCompatActivity

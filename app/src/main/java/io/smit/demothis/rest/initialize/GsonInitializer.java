@@ -1,4 +1,4 @@
-package io.smit.demothis.rest;
+package io.smit.demothis.rest.initialize;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,6 +11,8 @@ import io.smit.demothis.rest.gsonserializer.LocalDateSerializer;
 import io.smit.demothis.rest.gsonserializer.LocalDateTimeDeserializer;
 import io.smit.demothis.rest.gsonserializer.LocalDateTimeSerializer;
 
+// This initializer the only gson instance so it's the same across the app
+// Makes it easy to scale
 public final class GsonInitializer
 {
     private static GsonInitializer gsonInitializer = null;
