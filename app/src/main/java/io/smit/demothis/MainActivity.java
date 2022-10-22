@@ -17,6 +17,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import io.smit.demothis.rest.constants.Warning;
 import io.smit.demothis.rest.initialize.GsonInitializer;
 import io.smit.demothis.rest.adapters.HubListAdapter;
 import io.smit.demothis.rest.constants.SerializedNames;
@@ -49,8 +50,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize UI elements
         listViewHubs = (ListView) findViewById(R.id.lv_hubs);
-
 
         // REST API initialize
         gson = GsonInitializer.getGson();
@@ -61,12 +62,10 @@ public class MainActivity extends AppCompatActivity
         customer = gson.fromJson(getIntent().getStringExtra(SerializedNames.CUSTOMER), Customer.class);
         customerDateTime = gson.fromJson(getIntent().getStringExtra(SerializedNames.LOCALDATETIME), LocalDateTime.class);
 
-       //Toast.makeText(MainActivity.this, getIntent().getStringExtra(SerializedNames.LOCALDATETIME), Toast.LENGTH_LONG).show();
-
-
-
+        // Display a message that we are in fact fetching hubs
         Toast.makeText(MainActivity.this, "Fetching hubs...", Toast.LENGTH_LONG).show();
 
+        // Actually make an API call to get hub data
         Call<List<Hub>> call = hubsApi.getAllHubs();
 
         call.enqueue(new Callback<List<Hub>>()
@@ -80,17 +79,23 @@ public class MainActivity extends AppCompatActivity
                 }
                 hubList = response.body();
                 hubList = customer.calculateManhattanDistance(hubList);
-                Log.d("RESPONSE", "listofhubs before filter" + hubList.toString());
+
+                // Some log commands to debug, please ignore
+                //Log.d("RESPONSE", "listofhubs before filter" + hubList.toString());
                 filterHubsByAvailability();
                 hubList.sort(Comparator.comparing(Hub::getManhattanDistance));
-                Log.d("RESPONSE", "listofhubs " + hubList.toString());
-                Log.d("RESPONSE", response.body().toString() + "code " + response.code());
 
-
+                //Log.d("RESPONSE", "listofhubs " + hubList.toString());
+                //Log.d("RESPONSE", response.body().toString() + "code " + response.code());
 
                 HubListAdapter hubListAdapter = new HubListAdapter(MainActivity.this, R.layout.row_item, hubList);
                 listViewHubs.setAdapter(hubListAdapter);
                 hubListAdapter.notifyDataSetChanged();
+
+                if (hubList.isEmpty())
+                {
+                    Toast.makeText(MainActivity.this, Warning.NO_HUBS_IN_YOUR_AREA, Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -101,10 +106,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Display manhattan distance upon clicking a listview
         listViewHubs.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+            {
                 Hub hub = (Hub) adapterView.getItemAtPosition(i);
                 Snackbar.make(view, "Manhattan distance: " + hub.getManhattanDistance(), Snackbar.LENGTH_LONG).show();
             }

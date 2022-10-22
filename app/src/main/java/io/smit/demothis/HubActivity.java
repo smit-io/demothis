@@ -40,7 +40,8 @@ public class HubActivity extends AppCompatActivity
     int minute;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hub);
 
@@ -55,9 +56,11 @@ public class HubActivity extends AppCompatActivity
         customer = new Customer();
 
         // Display a time dialog picker when clicked on the time picker textview
-        textLocalTime.setOnClickListener(new View.OnClickListener() {
+        textLocalTime.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 // Pick time here
                 TimePickerDialog timePickerDialog = new TimePickerDialog(HubActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
