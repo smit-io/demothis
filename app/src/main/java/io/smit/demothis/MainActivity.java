@@ -165,29 +165,21 @@ public class MainActivity extends AppCompatActivity {
 
     public static void filterHubsByAvailibility()
     {
-        for (Iterator<Hub> iterator = hubList.iterator(); iterator.hasNext();) {
+        for (Iterator<Hub> iterator = hubList.iterator(); iterator.hasNext();)
+        {
             Hub hub = iterator.next();
 
-            if(!(hub.getClosingTime().isBefore(customerDateTime) || hub.getClosingTime().isEqual(customerDateTime) && hub.getOpeningTime().isAfter(customerDateTime) || hub.getOpeningTime().isEqual(customerDateTime)))
+            if(!(hub.getOpeningTime().isBefore(customerDateTime) && hub.getClosingTime().isAfter(customerDateTime)))
             {
                 iterator.remove();
-                Toast.makeText(context, "Hub " + hub.getName() + " got removed", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Hub " + hub.getName() + " is not available", Toast.LENGTH_LONG).show();
             }
             else
             {
-                Toast.makeText(context, "Hub " + hub.getName() + " stayed", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Hub " + hub.getName() + " is available", Toast.LENGTH_LONG).show();
             }
-            /*
-            if (!(hub.getOpeningTime().isBefore(customerDateTime) && hub.getClosingTime().isAfter(customerDateTime))) {
-                iterator.remove();
-                Toast.makeText(context, "Hub " + hub.getName() + " got removed", Toast.LENGTH_LONG).show();
-            }
-            else
-            {
-                Toast.makeText(context, "Hub " + hub.getName() + " stayed", Toast.LENGTH_LONG).show();
-            }*/
         }
-
     }
+
 
 }

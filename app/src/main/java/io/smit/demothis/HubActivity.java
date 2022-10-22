@@ -10,13 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -29,8 +27,6 @@ import io.smit.demothis.rest.gsonserializer.LocalDateSerializer;
 import io.smit.demothis.rest.gsonserializer.LocalDateTimeDeserializer;
 import io.smit.demothis.rest.gsonserializer.LocalDateTimeSerializer;
 import io.smit.demothis.rest.pojo.Customer;
-import io.smit.demothis.rest.pojo.Hub;
-import kotlin.collections.DoubleIterator;
 
 public class HubActivity extends AppCompatActivity
 {

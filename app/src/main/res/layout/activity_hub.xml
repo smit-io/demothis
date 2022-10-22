@@ -31,20 +31,20 @@
     <EditText
         android:id="@+id/etn_lat"
         android:layout_width="55dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="108dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintHorizontal_bias="0.387"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_picktime" />
 
     <EditText
         android:id="@+id/etn_long"
         android:layout_width="55dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="108dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
