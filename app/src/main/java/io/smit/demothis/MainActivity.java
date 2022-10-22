@@ -2,6 +2,7 @@ package io.smit.demothis;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +18,10 @@ import com.google.gson.GsonBuilder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import io.smit.demothis.rest.adapters.HubListAdapter;
@@ -44,10 +47,12 @@ public class MainActivity extends AppCompatActivity {
     private static Retrofit retrofit;
     private static HubsApi hubsApi;
     private static Customer customer;
-    private List<Hub> hubList;
+    private static List<Hub> hubList;
     private ListView listViewHubs;
+    private static Context context;
+    private static List<Hub> availableHubs;
 
-    private LocalDateTime customerDateTime;
+    private static LocalDateTime customerDateTime;
 
     private static final String TAG = "Mainactivity";
 
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         listViewHubs = (ListView) findViewById(R.id.lv_hubs);
+        availableHubs = new ArrayList<>();
 
         // Hard coded data for customer class
         //customer = new Customer();
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         //customer.setName("Parker");
 
 
-
+        context = getBaseContext();
 
 
         // REST API initialize
@@ -80,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         customer = gson.fromJson(getIntent().getStringExtra(SerializedNames.CUSTOMER), Customer.class);
         customerDateTime = gson.fromJson(getIntent().getStringExtra(SerializedNames.LOCALDATETIME), LocalDateTime.class);
 
-       Toast.makeText(MainActivity.this, getIntent().getStringExtra(SerializedNames.LOCALDATETIME), Toast.LENGTH_LONG).show();
+       //Toast.makeText(MainActivity.this, getIntent().getStringExtra(SerializedNames.LOCALDATETIME), Toast.LENGTH_LONG).show();
 
 
 
@@ -98,9 +104,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 hubList = response.body();
                 hubList = customer.calculateManhattanDistance(hubList);
+                Log.d("RESPONSE", "listofhubs before filter" + hubList.toString());
+                filterHubsByAvailibility();
                 hubList.sort(Comparator.comparing(Hub::getManhattanDistance));
                 Log.d("RESPONSE", "listofhubs " + hubList.toString());
                 Log.d("RESPONSE", response.body().toString() + "code " + response.code());
+
+
 
                 HubListAdapter hubListAdapter = new HubListAdapter(MainActivity.this, R.layout.row_item, hubList);
                 listViewHubs.setAdapter(hubListAdapter);
@@ -151,6 +161,33 @@ public class MainActivity extends AppCompatActivity {
     private static void buildHubsApi()
     {
         hubsApi = retrofit.create(HubsApi.class);
+    }
+
+    public static void filterHubsByAvailibility()
+    {
+        for (Iterator<Hub> iterator = hubList.iterator(); iterator.hasNext();) {
+            Hub hub = iterator.next();
+
+            if(!(hub.getClosingTime().isBefore(customerDateTime) || hub.getClosingTime().isEqual(customerDateTime) && hub.getOpeningTime().isAfter(customerDateTime) || hub.getOpeningTime().isEqual(customerDateTime)))
+            {
+                iterator.remove();
+                Toast.makeText(context, "Hub " + hub.getName() + " got removed", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(context, "Hub " + hub.getName() + " stayed", Toast.LENGTH_LONG).show();
+            }
+            /*
+            if (!(hub.getOpeningTime().isBefore(customerDateTime) && hub.getClosingTime().isAfter(customerDateTime))) {
+                iterator.remove();
+                Toast.makeText(context, "Hub " + hub.getName() + " got removed", Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(context, "Hub " + hub.getName() + " stayed", Toast.LENGTH_LONG).show();
+            }*/
+        }
+
     }
 
 }
